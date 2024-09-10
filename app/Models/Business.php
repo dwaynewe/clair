@@ -7,16 +7,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class User extends Model
+class Business extends Model
 {
     use HasFactory;
 
     protected $connection = 'mongodb';
-    protected $fillable = ['name', 'email', 'external_id'];
+    protected $collection = 'businesses';
+    protected $fillable = ['name', 'external_id', 'enabled', 'deduction_percentage'];
 
-    public function businesses(): BelongsToMany
+    public function users(): BelongsToMany
     {
-        return $this->belongsToMany(Business::class, null, 'user_ids', 'business_ids');
+        return $this->belongsToMany(User::class, null, 'business_ids', 'user_ids');
     }
 
     public function payItems(): HasMany
